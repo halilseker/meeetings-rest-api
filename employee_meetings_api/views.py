@@ -24,3 +24,24 @@ class EmployeeProfileViewSet(viewsets.ModelViewSet):
 class EmployeeLoginApiView(ObtainAuthToken):
     """Handle creating employee authentication tokens"""
     renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
+
+class ReservationViewSet(viewsets.ModelViewSet):
+    """Handles creating, reading and updating reservation"""
+    authentication_classes = (TokenAuthentication,)
+    serializer_class = serializers.ReservationSerializer
+    queryset = models.Reservation.objects.all()
+
+    def perform_create(self, serializer):
+        """Sets the employee profile to the logged in user """
+        serializer.save(employee_profile=self.request.employee)
+
+
+class MeetingRoomViewSet(viewsets.ModelViewSet):
+    """Handles creating, reading and updating meeting room"""
+    authentication_classes = (TokenAuthentication,)
+    serializer_class = serializers.MeetingRoomSerializer
+    queryset = models.MeetingRoom.objects.all()
+
+    def perform_create(self, serializer):
+        """Sets the employee profile to the logged in user """
+        serializer.save(employee_profile=self.request.employee)

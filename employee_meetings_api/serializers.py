@@ -24,3 +24,20 @@ class EmployeeProfileSerializer(serializers.ModelSerializer):
             password = validated_data['password']
         )
         return employee
+
+class ReservationSerializer(serializers.ModelSerializer):
+    """Serializes reservation """
+
+    class Meta:
+        model = models.Reservation
+        fields = ('id', 'employee_profile', 'status_text', 'created_on', 'title')
+        extra_kwargs = {'employee_profile': {'read_only': True}}
+
+
+class MeetingRoomSerializer(serializers.ModelSerializer):
+    """Serializes MeetingRoom """
+
+    class Meta:
+        model = models.MeetingRoom
+        fields = ('id', 'employee_profile', 'is_available')
+        extra_kwargs = {'employee_profile': {'read_only': True}}
