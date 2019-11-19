@@ -5,6 +5,8 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework import filters
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.settings import api_settings
+# from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated
 
 from employee_meetings_api import serializers
 from  employee_meetings_api import models
@@ -30,6 +32,11 @@ class ReservationViewSet(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication,)
     serializer_class = serializers.ReservationSerializer
     queryset = models.Reservation.objects.all()
+    permission_classes = (
+        permissions.UpdateOwnStatus,
+        IsAuthenticated
+        # IsAuthenticatedOrReadOnly
+    )
 
     def perform_create(self, serializer):
         """Sets the employee profile to the logged in user """
@@ -41,6 +48,11 @@ class MeetingRoomViewSet(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication,)
     serializer_class = serializers.MeetingRoomSerializer
     queryset = models.MeetingRoom.objects.all()
+    permission_classes = (
+        permissions.UpdateOwnStatus,
+        IsAuthenticated
+        # IsAuthenticatedOrReadOnly
+    )
 
     def perform_create(self, serializer):
         """Sets the employee profile to the logged in user """
