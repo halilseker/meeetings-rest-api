@@ -34,10 +34,10 @@ class ReservationSerializer(serializers.ModelSerializer):
         extra_kwargs = {'employee_profile': {'read_only': True}}
 
 
-class MeetingRoomSerializer(serializers.ModelSerializer):
-    """Serializes MeetingRoom """
-
-    class Meta:
-        model = models.MeetingRoom
-        fields = ('id', 'employee_profile', 'is_available')
-        extra_kwargs = {'employee_profile': {'read_only': True}}
+# class MeetingRoomSerializer(serializers.ModelSerializer):
+#     """Serializes MeetingRoom """
+#
+#     class Meta:
+#         model = models.MeetingRoom
+#         fields = ('id', 'employee_profile', 'is_available')
+#         extra_kwargs = {'employee_profile': {'read_only': True}}

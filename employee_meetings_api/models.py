@@ -59,9 +59,9 @@ class Reservation(models.Model):
     """Reservation status update"""
     employee_profile = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.CASCADE
     )
-
+    
     status_text = models.CharField(max_length=255)
     created_on = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=255)
@@ -70,15 +70,15 @@ class Reservation(models.Model):
         return self.status_text
 
 
-class MeetingRoom(models.Model):
-    """Meeting room's availability """
-    employee_profile = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-    )
-
-    is_available = models.BooleanField(default=True)
-    # status_text = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.is_available
+# class MeetingRoom(models.Model):
+#     """Meeting room's availability """
+#     employee_profile = models.ForeignKey(
+#         settings.AUTH_USER_MODEL,
+#         on_delete=models.CASCADE
+#     )
+#
+#     is_available = models.BooleanField(default=True)
+#     # status_text = models.CharField(max_length=255)
+#
+#     def __str__(self):
+#         return self.is_available
