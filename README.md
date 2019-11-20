@@ -1,6 +1,5 @@
 # Code for Meeting Project #
 
-Please read also README2.md
 
 A REST API that supports the following:
  * Documenting APIs with Swaggger (please try it in your browser with following url http://127.0.0.1:8080/api/swagger-docs/)
@@ -10,3 +9,5 @@ A REST API that supports the following:
  * Viewing employee profile fields.
  * Deleting for employee profiles.
  * Adding reservation details
+
+*Note: Please read also README2.md*
