@@ -60,9 +60,36 @@ class RoomSerializer(serializers.ModelSerializer):
         model = models.Room
         fields = ('id', 'room_name', 'is_available', 'meeting_room')
 
+# class ReservationSerializer(serializers.ModelSerializer):
+#     """Serializes a reservation object"""
+#     room = RoomSerializer()
+#     class Meta:
+#         model = models.Reservation
+#         fields = ('id', 'title', 'created_on', 'limit', 'room')
+
 class ReservationSerializer(serializers.ModelSerializer):
-    """Serializes a reservation object"""
-    room = RoomSerializer()
+    """Serialize a reservation"""
+    employee_profile = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=EmployeeProfile.objects.all()
+    )
+    room = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Room.objects.all()
+    )
+
     class Meta:
-        model = models.Reservation
-        fields = ('id', 'title', 'created_on', 'limit', 'room')
+        model = Reservation
+        fields = ('id', 'title', 'created_on', 'limit', 'employee_profile', 'room')
+        read_only_fields = ('id',)
+
+
+    # def create(self, validated_data):
+    #     employee_profile = EmployeeProfile.objects.get(pk=validated_data.pop('name'))
+    #     instance = Reservation.objects.create(**validated_data)
+    #     Assignment.objects.create(Order=order, Equipment=instance)
+    #     return instance
+    # def to_representation(self, instance):
+    #     representation = super(EquipmentSerializer, self).to_representation(instance)
+    #     representation['assigment'] = AssignmentSerializer(instance.assigment_set.all(), many=True).data
+    #     return representation
