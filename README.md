@@ -1,4 +1,6 @@
-# Code for Profiles Project #
+# Code for Meeting Project #
+
+Please read also README2.md
 
 A REST API that supports the following:
  * Creating new employee profiles, rooms, meeting type, reservation.
