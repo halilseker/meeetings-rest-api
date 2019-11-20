@@ -2,7 +2,7 @@
 
 
 A REST API that supports the following:
- * Documenting APIs with Swaggger (please try it in your browser with following url http://127.0.0.1:8080/api/swagger-docs/)
+ * Documenting APIs with Swaggger and coreapi (please try it in your browser with following url http://127.0.0.1:8080/api/swagger-docs/ and http://127.0.0.1:8080/api/docs/)
  * Creating new employee profiles, rooms, meeting type, reservation.
  * Logging in with a employee profile.
  * Adding rooms availability updates.
