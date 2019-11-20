@@ -12,6 +12,11 @@ from employee_meetings_api.serializers import RoomSerializer
 from employee_meetings_api.serializers import ReservationSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.settings import api_settings
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated
+
+
+from employee_meetings_api import permissions
 
 class MeetingRoomList(generics.ListCreateAPIView):
     queryset = MeetingRoom.objects.all()
@@ -47,6 +52,11 @@ class EmployeeProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = EmployeeProfile.objects.all()
     serializer_class = EmployeeProfileSerializer
     name = 'employee-profile-detail'
+    permission_classes = (permissions.UpdateOwnStatus, IsAuthenticated)
+
+    def perform_create(self, serializer):
+        """Sets the user profile to the logged in user"""
+        serializer.save(employee_profile=self.request.employee)
 
 
 class ReservationList(generics.ListCreateAPIView):

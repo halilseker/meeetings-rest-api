@@ -4,6 +4,7 @@ from employee_meetings_api.models import MeetingRoom
 from employee_meetings_api.models import Room
 from employee_meetings_api.models import Reservation
 from employee_meetings_api import models
+import employee_meetings_api.views
 
 
 class EmployeeProfileSerializer(serializers.ModelSerializer):
@@ -35,9 +36,9 @@ class EmployeeProfileSerializer(serializers.ModelSerializer):
 #         # read_only = True,
 #         queryset=Room.objects.all()
 #     )
-    # class Meta:
-    #     model = models.MeetingRoom
-    #     fields = ('id', 'meeting_type')
+#     class Meta:
+#         model = models.MeetingRoom
+#         fields = ('id', 'meeting_type')
 class MeetingRoomSerializer(serializers.HyperlinkedModelSerializer):
 
     rooms = serializers.HyperlinkedRelatedField(
@@ -69,10 +70,11 @@ class RoomSerializer(serializers.ModelSerializer):
 
 class ReservationSerializer(serializers.ModelSerializer):
     """Serialize a reservation"""
-    employee = serializers.PrimaryKeyRelatedField(
+    employee_profile = serializers.PrimaryKeyRelatedField(
         many=True,
-        queryset=EmployeeProfile.objects.all()
+        queryset=EmployeeProfile.objects.all(),
     )
+
     room_name = serializers.PrimaryKeyRelatedField(
         many=True,
         queryset=Room.objects.all()
@@ -80,5 +82,14 @@ class ReservationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reservation
-        fields = ('id', 'title', 'created_on', 'limit', 'employee', 'room_name')
+        fields = ('id', 'title', 'created_on', 'limit', 'employee_profile', 'room_name')
         read_only_fields = ('id',)
+
+    # def create(self, validated_data):
+    #
+    #     return Reservation.objects.create(**validated_data)
+    #
+    # def update(self, instance, validated_data):
+    #     instance.limit = validated_data.get('limit', instance.limit)
+    #     instance.save()
+    #     return instance

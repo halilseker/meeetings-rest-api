@@ -21,4 +21,4 @@ class UpdateOwnStatus(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
 
-        return obj.employee_profile.id == request.employee_profile.id
+        return obj.id == request.user.id
