@@ -25,6 +25,7 @@ class EmployeeProfileManager(BaseUserManager):
         employee = self.create_user(email, name, password)
 
         employee.is_superuser = True
+        employee.is_staff = True
         employee.save(using=self._db)
 
         return employee
@@ -33,7 +34,7 @@ class EmployeeProfile(AbstractBaseUser, PermissionsMixin):
     """Database model for employees in the system """
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
-
+    is_staff = models.BooleanField(default=False)
     objects = EmployeeProfileManager()
 
     USERNAME_FIELD = 'email'
