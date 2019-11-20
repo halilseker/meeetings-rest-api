@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'employee_meetings_api',
+    'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [
