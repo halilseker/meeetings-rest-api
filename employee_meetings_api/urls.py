@@ -1,6 +1,11 @@
 from django.conf.urls import url
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+
 from employee_meetings_api import views
 
+
+router = DefaultRouter()
 
 urlpatterns = [
     url(r'^meetingroom-list/$',
@@ -30,4 +35,5 @@ urlpatterns = [
     url(r'^$',
         views.ApiRoot.as_view(),
         name=views.ApiRoot.name),
+    path('login/', views.EmployeeLoginApiView.as_view()),
 ]

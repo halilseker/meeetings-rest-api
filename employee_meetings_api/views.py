@@ -10,7 +10,8 @@ from employee_meetings_api.serializers import EmployeeProfileSerializer
 from employee_meetings_api.serializers import MeetingRoomSerializer
 from employee_meetings_api.serializers import RoomSerializer
 from employee_meetings_api.serializers import ReservationSerializer
-
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.settings import api_settings
 
 class MeetingRoomList(generics.ListCreateAPIView):
     queryset = MeetingRoom.objects.all()
@@ -70,3 +71,8 @@ class ApiRoot(generics.GenericAPIView):
             'employee_profiles': reverse(EmployeeProfileList.name, request=request),
             'reservations': reverse(ReservationList.name, request=request)
             })
+
+
+class EmployeeLoginApiView(ObtainAuthToken):
+    """Handle creating employee authentication tokens """
+    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
