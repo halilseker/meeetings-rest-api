@@ -2,6 +2,7 @@ from django.conf.urls import url
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework_swagger.views import get_swagger_view
+from rest_framework.documentation import include_docs_urls
 
 from employee_meetings_api import views
 
@@ -39,4 +40,5 @@ urlpatterns = [
         name=views.ApiRoot.name),
     path('login/', views.EmployeeLoginApiView.as_view()),
     path(r'swagger-docs/', schema_view),
+    path(r'docs/', include_docs_urls(title='Employee Meeting API')),
 ]
