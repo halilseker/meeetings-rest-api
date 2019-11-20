@@ -126,7 +126,7 @@ python manage.py startapp employee_meetings_api
 ```
 python manage.py runserver 0.0.0.0:5000
 ```
-*Note: And user this urls in your browser http://127.0.0.1:8080/api and http://127.0.0.1:8080/admin*
+*Note: And use this urls in your browser http://127.0.0.1:8080/api and http://127.0.0.1:8080/admin*
 
 **Create database migrations file**
 
