@@ -25,7 +25,6 @@ class EmployeeProfileManager(BaseUserManager):
         employee = self.create_user(email, name, password)
 
         employee.is_superuser = True
-        employee.is_staff = True
         employee.save(using=self._db)
 
         return employee
@@ -34,8 +33,6 @@ class EmployeeProfile(AbstractBaseUser, PermissionsMixin):
     """Database model for employees in the system """
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
 
     objects = EmployeeProfileManager()
 
@@ -55,30 +52,44 @@ class EmployeeProfile(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 
-class Reservation(models.Model):
-    """Reservation status update"""
-    employee_profile = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE
-    )
-    
-    status_text = models.CharField(max_length=255)
-    created_on = models.DateTimeField(auto_now_add=True)
-    title = models.CharField(max_length=255)
+class MeetingRoom(models.Model):
+    """Meeting room used for reservations"""
+    meeting_type = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.status_text
+        """Return the model as a string"""
+        return self.meeting_type
 
 
-# class MeetingRoom(models.Model):
-#     """Meeting room's availability """
-#     employee_profile = models.ForeignKey(
-#         settings.AUTH_USER_MODEL,
-#         on_delete=models.CASCADE
-#     )
-#
-#     is_available = models.BooleanField(default=True)
-#     # status_text = models.CharField(max_length=255)
-#
-#     def __str__(self):
-#         return self.is_available
+class Room(models.Model):
+    """ Room used for meetings"""
+    room_name = models.CharField(max_length=255)
+    meeting_room = models.ForeignKey(
+        MeetingRoom,
+        related_name= 'rooms',
+        on_delete=models.CASCADE
+    )
+    is_available = models.BooleanField(default=True)
+
+    def __str__(self):
+        """Return the model as a string"""
+        return self.room_name
+
+class Reservation(models.Model):
+    """Employees attends for meeting"""
+    employee_profile = models.ForeignKey(
+        EmployeeProfile,
+        related_name= 'reservations',
+        on_delete=models.CASCADE
+    )
+    room = models.ForeignKey(
+        Room,
+        on_delete=models.CASCADE
+    )
+    title = models.CharField(max_length=255)
+    created_on = models.DateTimeField(auto_now_add=True)
+    limit = models.IntegerField()
+
+    def __str__(self):
+        """Return the model as a string"""
+        return self.limit

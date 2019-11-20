@@ -1,63 +1,72 @@
-from rest_framework.views import APIView
+from django.shortcuts import render
+from rest_framework import generics
 from rest_framework.response import Response
-from rest_framework import status
-from rest_framework import viewsets
-from rest_framework.authentication import TokenAuthentication
-from rest_framework import filters
-from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.settings import api_settings
-# from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from rest_framework.permissions import IsAuthenticated
-
-from employee_meetings_api import serializers
-from employee_meetings_api import models
-from employee_meetings_api import permissions
+from rest_framework.reverse import reverse
+from employee_meetings_api.models import EmployeeProfile
+from employee_meetings_api.models import MeetingRoom
+from employee_meetings_api.models import Room
+from employee_meetings_api.models import Reservation
+from employee_meetings_api.serializers import EmployeeProfileSerializer
+from employee_meetings_api.serializers import MeetingRoomSerializer
+from employee_meetings_api.serializers import RoomSerializer
+from employee_meetings_api.serializers import ReservationSerializer
 
 
-class EmployeeProfileViewSet(viewsets.ModelViewSet):
-    """Handle creating and updating employee profiles """
-    serializer_class = serializers.EmployeeProfileSerializer
-    queryset = models.EmployeeProfile.objects.all()
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (permissions.UpdateOwnProfile,)
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('name', 'email',)
+class MeetingRoomList(generics.ListCreateAPIView):
+    queryset = MeetingRoom.objects.all()
+    serializer_class = MeetingRoomSerializer
+    name = 'meetingroom-list'
 
 
-class EmployeeLoginApiView(ObtainAuthToken):
-    """Handle creating employee authentication tokens"""
-    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
+class MeetingRoomDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = MeetingRoom.objects.all()
+    serializer_class = MeetingRoomSerializer
+    name = 'meetingroom-detail'
 
 
-# class ReservationViewSet(viewsets.ModelViewSet):
-class EmployeeReservationViewSet(viewsets.ModelViewSet):
-    """Handles creating, reading and updating reservation"""
-    authentication_classes = (TokenAuthentication,)
-    serializer_class = serializers.ReservationSerializer
-    queryset = models.Reservation.objects.all()
-    permission_classes = (
-        permissions.UpdateOwnStatus,
-        IsAuthenticated
-        # IsAuthenticatedOrReadOnly
-    )
-
-    def perform_create(self, serializer):
-        """Sets the employee profile to the logged in user """
-        serializer.save(user=self.request.user)
-        # serializer.save(employee_profile=self.request.employee)
+class RoomList(generics.ListCreateAPIView):
+    queryset = Room.objects.all()
+    serializer_class = RoomSerializer
+    name = 'room-list'
 
 
-# class MeetingRoomViewSet(viewsets.ModelViewSet):
-#     """Handles creating, reading and updating meeting room"""
-#     authentication_classes = (TokenAuthentication,)
-#     serializer_class = serializers.MeetingRoomSerializer
-#     queryset = models.MeetingRoom.objects.all()
-#     permission_classes = (
-#         permissions.UpdateOwnStatus,
-#         IsAuthenticated
-#         # IsAuthenticatedOrReadOnly
-#     )
-    #
-    # def perform_create(self, serializer):
-    #     """Sets the employee profile to the logged in user """
-    #     serializer.save(employee_profile=self.request.employee)
+class RoomDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Room.objects.all()
+    serializer_class = RoomSerializer
+    name = 'room-detail'
+
+
+class EmployeeProfileList(generics.ListCreateAPIView):
+    queryset = EmployeeProfile.objects.all()
+    serializer_class = EmployeeProfileSerializer
+    name = 'employee-profile-list'
+
+
+class EmployeeProfileDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = EmployeeProfile.objects.all()
+    serializer_class = EmployeeProfileSerializer
+    name = 'employee-profile-detail'
+
+
+class ReservationList(generics.ListCreateAPIView):
+    queryset = Reservation.objects.all()
+    serializer_class = ReservationSerializer
+    name = 'reservation-list'
+
+
+class ReservationDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Reservation.objects.all()
+    serializer_class = ReservationSerializer
+    name = 'reservation-detail'
+
+
+class ApiRoot(generics.GenericAPIView):
+    name = 'api-root'
+    def get(self, request, *args, **kwargs):
+        return Response({
+            'meeting-rooms': reverse(MeetingRoomList.name,
+            request=request),
+            'rooms': reverse(RoomList.name, request=request),
+            'employee_profiles': reverse(EmployeeProfileList.name, request=request),
+            'reservations': reverse(ReservationList.name, request=request)
+            })
