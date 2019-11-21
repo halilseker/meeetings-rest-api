@@ -70,20 +70,21 @@ class RoomSerializer(serializers.ModelSerializer):
 
 class ReservationSerializer(serializers.ModelSerializer):
     """Serialize a reservation"""
+    room = serializers.PrimaryKeyRelatedField(
+        # many=True,
+        queryset=Room.objects.all()
+    )
     employee_profile = serializers.PrimaryKeyRelatedField(
-        many=True,
+        # many=True,
         queryset=EmployeeProfile.objects.all(),
     )
 
-    room_name = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=Room.objects.all()
-    )
 
     class Meta:
         model = Reservation
-        fields = ('id', 'title', 'created_on', 'limit', 'employee_profile', 'room_name')
-        read_only_fields = ('id',)
+        fields = ('id', 'title', 'created_on', 'limit', 'employee_profile', 'room')
+        read_only_fields = ('id','employee_profile','room_name')
+
 
     # def create(self, validated_data):
     #

@@ -65,10 +65,17 @@ class ReservationList(generics.ListCreateAPIView):
     name = 'reservation-list'
 
 
+
 class ReservationDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
     name = 'reservation-detail'
+
+    def perform_create(self, serializer):
+        """Sets the user profile to the logged in user"""
+        serializer.save(reservation=self.request.room)
+
+
 
 
 class ApiRoot(generics.GenericAPIView):
