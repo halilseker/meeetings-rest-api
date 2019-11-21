@@ -70,10 +70,11 @@ class ReservationDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
     name = 'reservation-detail'
+    permission_classes = (permissions.UpdateOwnStatus, IsAuthenticated)
 
     def perform_create(self, serializer):
         """Sets the user profile to the logged in user"""
-        serializer.save(reservation=self.request.room)
+        serializer.save(reservation=self.request.reservation)
 
 
 
