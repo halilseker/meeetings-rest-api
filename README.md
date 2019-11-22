@@ -9,5 +9,5 @@ A REST API that supports the following:
  * Viewing employee profile fields.
  * Deleting for employee profiles.
  * Adding reservation details
-
+ * Filter by employee in reservations
 *Note: Please read also README2.md*
