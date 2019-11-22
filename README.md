@@ -12,3 +12,5 @@ A REST API that supports the following:
  * Filter by employee in reservations
  
 *Note: Please read also README2.md*
+
+*Note: For adding and modifying HTTP request headers and response headers used ModHeader Tools : https://chrome.google.com/webstore/detail/modheader/idgpnmonknjnojddfkpgkljpfnnfcklj?hl=en*
