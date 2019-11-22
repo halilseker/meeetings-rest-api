@@ -2,6 +2,8 @@ from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework import filters
+from django_filters import AllValuesFilter, DateTimeFilter, NumberFilter
 from employee_meetings_api.models import EmployeeProfile
 from employee_meetings_api.models import MeetingRoom
 from employee_meetings_api.models import Room
@@ -14,9 +16,8 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.settings import api_settings
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.permissions import IsAuthenticated
-
-
 from employee_meetings_api import permissions
+
 
 class MeetingRoomList(generics.ListCreateAPIView):
     queryset = MeetingRoom.objects.all()
@@ -64,6 +65,16 @@ class ReservationList(generics.ListCreateAPIView):
     serializer_class = ReservationSerializer
     name = 'reservation-list'
 
+    filterset_fields = ['employee_profile']
+    filter_fields = (
+        'employee_profile',
+    )
+    search_fields =(
+        '^employee_profile',
+    )
+    ordering_field = (
+        'employee_profile',
+    )
 
 
 class ReservationDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -75,8 +86,6 @@ class ReservationDetail(generics.RetrieveUpdateDestroyAPIView):
     def perform_create(self, serializer):
         """Sets the user profile to the logged in user"""
         serializer.save(reservation=self.request.reservation)
-
-
 
 
 class ApiRoot(generics.GenericAPIView):

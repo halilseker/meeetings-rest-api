@@ -12,7 +12,7 @@ class UpdateOwnProfile(permissions.BasePermission):
         return obj.id == request.user.id
         # return obj.id == request.employee.id
 
-#
+
 class UpdateOwnStatus(permissions.BasePermission):
     """Allow users to update their own status"""
 

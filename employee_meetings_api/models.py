@@ -4,6 +4,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 from django.conf import settings
 
+
 class EmployeeProfileManager(BaseUserManager):
     """Manager for employee profiles """
 
@@ -23,12 +24,12 @@ class EmployeeProfileManager(BaseUserManager):
     def create_superuser(self, email, name, password):
         """Create and save a new superuser with given details """
         employee = self.create_user(email, name, password)
-
         employee.is_superuser = True
         employee.is_staff = True
         employee.save(using=self._db)
 
         return employee
+
 
 class EmployeeProfile(AbstractBaseUser, PermissionsMixin):
     """Database model for employees in the system """
@@ -75,6 +76,7 @@ class Room(models.Model):
     def __str__(self):
         """Return the model as a string"""
         return self.room_name
+
 
 class Reservation(models.Model):
     """Employees attends for meeting"""

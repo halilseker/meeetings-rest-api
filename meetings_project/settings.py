@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'employee_meetings_api',
     'rest_framework_swagger',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -124,3 +125,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'employee_meetings_api.EmployeeProfile'
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
